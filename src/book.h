@@ -25,7 +25,7 @@ class Book : public std::enable_shared_from_this<Book> {
 
     Book& setContent(std::string&& s);
     Book& setContent(std::string s);
-    virtual ~Book();
+    virtual ~Book() = default;
     friend bool operator<(const Book& lhs, const Book& rhs);
 
    private:

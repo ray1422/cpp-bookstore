@@ -2,7 +2,6 @@
 
 #include <iostream>
 using std::string;
-Book::~Book() { std::cout << "Book '" << isbn_ << "' is destroyed" << std::endl; }
 Book::Book(string isbn, string title, string author, string content)
     : isbn_(isbn),
       title_(title),
@@ -56,9 +55,9 @@ SalableBook::SalableBook(const SalableBook& rhs)
 // move constructor for SalableBook
 SalableBook::SalableBook(SalableBook&& rhs)
     : Book(std::move(rhs)), num_in_bookstores(rhs.num_in_bookstores) {
-        using namespace std;
-        cout << "SalableBook " << isbn() << " moved constructed" << endl;
-    }
+    using namespace std;
+    cout << "SalableBook " << isbn() << " moved constructed" << endl;
+}
 
 // move assignment for SalableBook
 SalableBook& SalableBook::operator=(SalableBook&& rhs) {
