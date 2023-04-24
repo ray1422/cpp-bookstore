@@ -10,6 +10,12 @@ class Bookstore;
 
 #include "book.h"
 
+template <class T>
+bool operator<(const std::weak_ptr<const Bookstore>& lhs,
+               const std::weak_ptr<const Bookstore>& rhs) {
+    return lhs.lock() < rhs.lock();
+}
+
 class Bookstore : std::enable_shared_from_this<Bookstore> {
    private:
     static void move_bookstore_in_book(SalableBook& book,
@@ -20,11 +26,6 @@ class Bookstore : std::enable_shared_from_this<Bookstore> {
     virtual ~Bookstore();
     std::string name;
     std::uint32_t uuid;
-    // delete copy constructor
-    // Bookstore(const Bookstore&) = delete;
-    // // delete copy assignment
-    // Bookstore& operator=(const Bookstore&) = delete;
-
     // move constructor
     Bookstore(Bookstore&&);
     // move assignment
@@ -38,7 +39,5 @@ class Bookstore : std::enable_shared_from_this<Bookstore> {
     Bookstore&& add_book(std::shared_ptr<SalableBook>, unsigned int num = 1) &&;
 
     friend bool operator<(const Bookstore& lhs, const Bookstore& rhs);
-    std::map<std::shared_ptr<SalableBook>, unsigned int,
-             std::owner_less<std::shared_ptr<SalableBook>>>
-        books;
+    std::map<std::shared_ptr<SalableBook>, unsigned int> books;
 };

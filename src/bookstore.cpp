@@ -1,5 +1,6 @@
 #include "bookstore.h"
 
+#include <iostream>
 bool operator<(const Bookstore& lhs, const Bookstore& rhs) { return lhs.uuid < rhs.uuid; }
 
 Bookstore::~Bookstore() {
@@ -41,6 +42,7 @@ Bookstore& Bookstore::add_book(SalableBook&& book, unsigned int num) & {
 }
 
 Bookstore& Bookstore::add_book(std::shared_ptr<SalableBook> book, unsigned int num) & {
+    std::cout << "add book " << book->isbn() << " to bookstore " << name << std::endl;
     books[book] += num;
     book->increase_num_in_bookstore(weak_from_this());
     return *this;

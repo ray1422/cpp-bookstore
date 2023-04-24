@@ -2,7 +2,7 @@
 
 #include <iostream>
 using std::string;
-Book::~Book() { std::cout << "Book " << isbn_ << " is destroyed" << std::endl; }
+Book::~Book() { std::cout << "Book '" << isbn_ << "' is destroyed" << std::endl; }
 Book::Book(string isbn, string title, string author, string content)
     : isbn_(isbn),
       title_(title),
@@ -11,21 +11,23 @@ Book::Book(string isbn, string title, string author, string content)
 
 Book::Book(Book&& book)
     : enable_shared_from_this(),
-      isbn_(book.isbn_),
-      title_(book.title_),
-      author_(book.author_),
+      title_(std::move(book.title_)),
+      author_(std::move(book.author_)),
       content_ptr_(std::move(book.content_ptr_)) {
+    isbn_ = std::move(book.isbn_);
     using std::cout;
     using std::endl;
     cout << "book " << isbn_ << " moved constructed" << endl;
 }
+
 Book& Book::operator=(Book&& book) {
-    book.isbn_ = std::move(isbn_);
-    book.title_ = std::move(title_);
-    book.author_ = std::move(author_);
-    book.content_ptr_ = std::move(content_ptr_);
+    isbn_ = std::move(book.isbn_);
+    title_ = std::move(book.title_);
+    author_ = std::move(book.author_);
+    content_ptr_ = std::move(book.content_ptr_);
     return *this;
 }
+
 Book::Book(const Book& book)
     : enable_shared_from_this(),
       isbn_(book.isbn_),
@@ -50,18 +52,22 @@ Book& Book::setContent(string s) {
 // copy constructor for SalableBook
 SalableBook::SalableBook(const SalableBook& rhs)
     : Book(rhs), num_in_bookstores(rhs.num_in_bookstores) {}
+
 // move constructor for SalableBook
 SalableBook::SalableBook(SalableBook&& rhs)
-    : Book(std::move(rhs)), num_in_bookstores(std::move(rhs.num_in_bookstores)) {}
-
+    : Book(std::move(rhs)), num_in_bookstores(rhs.num_in_bookstores) {
+        using namespace std;
+        cout << "SalableBook " << isbn() << " moved constructed" << endl;
+    }
 
 // move assignment for SalableBook
 SalableBook& SalableBook::operator=(SalableBook&& rhs) {
-    Book::operator=(std::move(rhs));
     num_in_bookstores = std::move(rhs.num_in_bookstores);
+    std::cout << "SalableBook " << rhs.isbn() << " moving" << std::endl;
+    Book::operator=(std::move(rhs));
+    std::cout << "SalableBook '" << isbn() << "' moved assigned" << std::endl;
     return *this;
 }
-
 
 SalableBook::SalableBook(const Book& book) : Book(book) {}
 SalableBook::SalableBook(Book&& book) : Book(std::move(book)) {}

@@ -37,8 +37,7 @@ class Book : public std::enable_shared_from_this<Book> {
 
 class SalableBook : public Book {
    public:
-    virtual ~SalableBook() = default;
-
+    ~SalableBook() = default;
     // copy constructor
     SalableBook(const SalableBook& book);
     // copy assignment
@@ -58,8 +57,6 @@ class SalableBook : public Book {
     std::weak_ptr<SalableBook> weak_from_this();
 
    private:
-    std::map<std::weak_ptr<const Bookstore>, unsigned int,
-             std::owner_less<std::weak_ptr<const Bookstore>>>
-        num_in_bookstores;
+    std::map<std::weak_ptr<const Bookstore>, unsigned int, std::owner_less<>> num_in_bookstores;
     friend class Bookstore;
 };
