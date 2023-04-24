@@ -48,11 +48,11 @@ Bookstore& Bookstore::add_book(std::shared_ptr<SalableBook> book, unsigned int n
     return *this;
 }
 
-Bookstore&& Bookstore::add_book(SalableBook&& book, unsigned int num) && {
+Bookstore& Bookstore::add_book(SalableBook&& book, unsigned int num) && {
     auto book_ptr = std::make_shared<SalableBook>(std::move(book));
-    return std::move(add_book(book_ptr, num));
+    return add_book(book_ptr, num);
 }
 
-Bookstore&& Bookstore::add_book(std::shared_ptr<SalableBook> book, unsigned int num) && {
-    return std::move(add_book(book, num));
+Bookstore& Bookstore::add_book(std::shared_ptr<SalableBook> book, unsigned int num) && {
+    return add_book(book, num);
 }

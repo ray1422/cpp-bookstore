@@ -35,8 +35,8 @@ class Bookstore : std::enable_shared_from_this<Bookstore> {
     Bookstore& add_book(SalableBook&& book, unsigned int num = 1) &;
     Bookstore& add_book(std::shared_ptr<SalableBook>, unsigned int num = 1) &;
 
-    Bookstore&& add_book(SalableBook&& book, unsigned int num = 1) &&;
-    Bookstore&& add_book(std::shared_ptr<SalableBook>, unsigned int num = 1) &&;
+    Bookstore& add_book(SalableBook&& book, unsigned int num = 1) &&;
+    Bookstore& add_book(std::shared_ptr<SalableBook>, unsigned int num = 1) &&;
 
     friend bool operator<(const Bookstore& lhs, const Bookstore& rhs);
     std::map<std::shared_ptr<SalableBook>, unsigned int> books;

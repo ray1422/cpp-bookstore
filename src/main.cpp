@@ -23,5 +23,5 @@ int main() {
     std::cout << "chk " << store_3_ptr->books.begin()->first->isbn() << std::endl;
     auto book_5 = SalableBook(Book("isbn_5", "title_5", "author_5", "content_5"));
     delete store_3_ptr;
-    auto new_bookstore = Bookstore("new_bookstore", 4).add_book(std::move(book_5), 1);
+    auto new_bookstore = std::move(Bookstore("new_bookstore", 4).add_book(std::move(book_5), 1));
 }
